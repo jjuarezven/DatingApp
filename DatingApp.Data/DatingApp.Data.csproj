@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatingApp.Models\DatingApp.Models.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>

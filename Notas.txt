@@ -1,0 +1,3 @@
+Entity framework commands:
+	Add-Migration InitialMigration
+	Update-Database -Migration InitialMigration
