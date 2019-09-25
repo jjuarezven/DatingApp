@@ -11,8 +11,13 @@
   <div class="container" *ngIf="registerMode">
     <div class="row justify-content-center">
       <div class="col-4">
-          <!-- app-register is a child component of app-home component -->
-        <app-register [valuesFromHome]="values"></app-register>
+          <!-- 
+            app-register is a child component of app-home component, it gets input values in this way:
+            [valuesFromHome]="values"
+            app-register sends output information to its parent component, in this way:
+            (cancelRegister)="cancelRegisterMode($event);"
+          -->
+        <app-register [valuesFromHome]="values" (cancelRegister)="cancelRegisterMode($event);"></app-register>
       </div>
     </div>
   </div>
