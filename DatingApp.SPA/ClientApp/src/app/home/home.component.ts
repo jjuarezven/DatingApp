@@ -9,24 +9,14 @@ import { ConstantsService } from '../services/constants.service';
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
-  values: any;
 
   constructor(private http: HttpClient, private CONSTANTS: ConstantsService) { }
 
   ngOnInit() {
-    this.getValues();
   }
 
   registerToggle() {
     this.registerMode = true;
-  }
-
-  getValues() {
-    this.http.get(this.CONSTANTS.baseUrl).subscribe(response => {
-      this.values = response;
-    }, error => {
-        console.log(error);
-    });
   }
 
   cancelRegisterMode(registerMode: boolean) {

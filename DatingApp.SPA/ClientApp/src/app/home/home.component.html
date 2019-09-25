@@ -17,7 +17,7 @@
             app-register sends output information to its parent component, in this way:
             (cancelRegister)="cancelRegisterMode($event);"
           -->
-        <app-register [valuesFromHome]="values" (cancelRegister)="cancelRegisterMode($event);"></app-register>
+        <app-register (cancelRegister)="cancelRegisterMode($event);"></app-register>
       </div>
     </div>
   </div>
