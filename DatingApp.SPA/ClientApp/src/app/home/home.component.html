@@ -11,7 +11,8 @@
   <div class="container" *ngIf="registerMode">
     <div class="row justify-content-center">
       <div class="col-4">
-        <app-register></app-register>
+          <!-- app-register is a child component of app-home component -->
+        <app-register [valuesFromHome]="values"></app-register>
       </div>
     </div>
   </div>
