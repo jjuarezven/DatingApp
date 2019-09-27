@@ -50,12 +50,10 @@ namespace DatingApp.API.Controllers
             // createdatroute es la locacion del nuevo recurso creado
             return StatusCode(201);
         }
-
-        [AllowAnonymous]
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            throw new Exception("Computer says no");
             var userFromRepo = await _repository.Login(userForLoginDto.UserName.ToLower(), userForLoginDto.Password);
             if (userFromRepo == null)
             {
