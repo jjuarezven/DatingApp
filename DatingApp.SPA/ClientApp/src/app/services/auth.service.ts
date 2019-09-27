@@ -7,7 +7,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
+  // this is the way the author suggests to use JwtHelperService, but it can injected the normal way as well
   jwtHelper = new JwtHelperService();
+  decodedToken: any;
+
   constructor(private http: HttpClient, private CONSTANTS: ConstantsService) { }
 
   login(model: any) {
@@ -17,6 +20,8 @@ export class AuthService {
           const user = response;
           if (user) {
             localStorage.setItem('token', user.token);
+            this.decodedToken = this.jwtHelper.decodeToken(user.token);
+            console.log(this.decodedToken);
           }
         }));
   }
