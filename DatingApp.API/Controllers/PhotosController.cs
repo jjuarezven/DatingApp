@@ -33,8 +33,8 @@ namespace DatingApp.API.Controllers
             _mapper = mapper;
             _cloudinaryConfig = cloudinaryConfig;
 
-            var acc = new Account 
-            (             
+            var acc = new Account
+            (
                 _cloudinaryConfig.Value.CloudName,
                 _cloudinaryConfig.Value.ApiKey,
                 _cloudinaryConfig.Value.ApiSecret
@@ -42,8 +42,16 @@ namespace DatingApp.API.Controllers
             _cloudinary = new Cloudinary(acc);
         }
 
+        [HttpGet("{id}", Name = "GetPhoto")]
+        public async Task<IActionResult> GetPhoto(int id)
+        {
+            var photoFromRepo = await _repository.GetPhoto(id);
+            var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
+            return Ok(photo);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userId, PhotoForCreationDto photo)
+        public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm] PhotoForCreationDto photo)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
@@ -73,7 +81,8 @@ namespace DatingApp.API.Controllers
             userFromRepo.Photos.Add(newPhoto);
             if (await _repository.SaveAll())
             {
-                return Ok();
+                var photoToReturn = _mapper.Map<PhotoForReturnDto>(newPhoto);
+                return CreatedAtRoute("GetPhoto", new { id = newPhoto.Id }, photoToReturn);
             }
             return BadRequest("Could not add the photo");
         }
