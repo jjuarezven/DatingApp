@@ -50,6 +50,8 @@ namespace DatingApp.API.Controllers
             return Ok(photo);
         }
 
+        // [FromForm]: According to the docs it will be able to infer it as long as it is an IFormFile attribute, but since we are using this inside a 
+        // DTO with other non IFormFile properties, we need to give it a hint in this case.
         [HttpPost]
         public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm] PhotoForCreationDto photo)
         {
