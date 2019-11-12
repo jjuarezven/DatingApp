@@ -28,6 +28,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes-guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
@@ -63,12 +64,13 @@ export function tokenGetter() {
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
+        tokenGetter,
         whitelistedDomains: ['localhost:44397'],
         blacklistedRoutes: ['localhost:44397/api/auth']
       }
     }),
-    NgxGalleryModule
+    NgxGalleryModule,
+    FileUploadModule
   ],
   providers: [
     ErrorInterceptorProvider,
