@@ -40,8 +40,23 @@ export class PhotoEditorComponent implements OnInit {
       autoUpload: false, // click a button in order to send this up
       removeAfterUpload: true // after the photo is being uploaded we want to remove it from the upload queue
     });
+
     this.uploader.onAfterAddingFile = file => {
       file.withCredentials = false;
+    };
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        const res: Photo = JSON.parse(response);
+        const photo = {
+          id : res.id,
+          url : res.url,
+          dateAdded: res.dateAdded,
+          description: res.description,
+          isMain: res.isMain
+        };
+        this.photos.push(photo);
+      }
     };
   }
 }
