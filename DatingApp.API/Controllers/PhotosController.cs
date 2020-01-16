@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using DatingApp.API.DTO;
@@ -11,9 +6,11 @@ using DatingApp.API.Helpers;
 using DatingApp.Data;
 using DatingApp.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DatingApp.API.Controllers
 {
@@ -66,8 +63,8 @@ namespace DatingApp.API.Controllers
             {
                 using (var stream = file.OpenReadStream())
                 {
-                    var uploadParams = new ImageUploadParams() 
-                    { 
+                    var uploadParams = new ImageUploadParams()
+                    {
                         File = new FileDescription(file.Name, stream),
                         Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
                     };
@@ -87,6 +84,37 @@ namespace DatingApp.API.Controllers
                 return CreatedAtRoute("GetPhoto", new { id = newPhoto.Id }, photoToReturn);
             }
             return BadRequest("Could not add the photo");
+        }
+
+        [HttpPost("{id}/setMain")]
+        public async Task<ActionResult> SetMainPhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _repository.GetUser(userId);
+            if (!user.Photos.Any(p => p.Id == id))
+            {
+                return Unauthorized();
+            }
+
+            var photoFromRepo = await _repository.GetPhoto(id);
+            if (photoFromRepo.IsMain)
+            {
+                return BadRequest("This is already the main photo");
+            }
+
+            var currentMainPhoto = await _repository.GetMainPhotoForUser(userId);
+            currentMainPhoto.IsMain = false;
+            photoFromRepo.IsMain = true;
+
+            if (await _repository.SaveAll())
+            {
+                return NoContent();
+            }
+            return BadRequest("Could not set photo to main");
         }
     }
 }
