@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: Photo[];
-  @Output() getMemberPhotoChange = new EventEmitter<string>();
+  //@Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver: boolean;
   baseUrl = environment.apiUrl;
@@ -72,7 +72,12 @@ export class PhotoEditorComponent implements OnInit {
           this.currentMain = this.photos.filter(p => p.isMain)[0];
           this.currentMain.isMain = false;
           photo.isMain = true;
-          this.getMemberPhotoChange.emit(photo.url);
+          //this.getMemberPhotoChange.emit(photo.url);
+          // sets the current photo url
+          this.authService.changeMemberPhoto(photo.url);
+          this.authService.currentUser.photoUrl = photo.url;
+          // stores the current user to avoid information get lost when page refresh
+          localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
         },
         error => {
           this.alertify.error(error);
