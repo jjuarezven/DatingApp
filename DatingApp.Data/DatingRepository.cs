@@ -35,12 +35,7 @@ namespace DatingApp.Data
         public async Task<Photo> GetPhoto(int id)
         {
             return await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
-        }
-
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            return await _context.Users.Include(u => u.Photos).ToListAsync();
-        }
+        }        
 
         public async Task<bool> SaveAll()
         {
@@ -50,6 +45,12 @@ namespace DatingApp.Data
         public async Task<Photo> GetMainPhotoForUser(int userId)
         {
             return await _context.Photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(p => p.IsMain);
+        }
+
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
+        {
+            var users = _context.Users.Include(u => u.Photos);
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
     }
 }
