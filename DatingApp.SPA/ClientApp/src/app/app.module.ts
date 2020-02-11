@@ -16,7 +16,8 @@ import { ErrorInterceptorProvider } from './services/error.interceptor';
 import {
   BsDropdownModule,
   TabsModule,
-  BsDatepickerModule
+  BsDatepickerModule,
+  PaginationModule
 } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
@@ -71,6 +72,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
