@@ -13,5 +13,7 @@
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
 
+        public int UserId { get; set; }
+        public string Gender { get; set; }
     }
 }
