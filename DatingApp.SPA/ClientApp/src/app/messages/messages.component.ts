@@ -26,9 +26,9 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
-    this.userService.getMessages(this.authService.decodedToken.nameid, this.pagination.currentPage, this.pagination.itemsPerPage, this.messageContainer).subscribe((res: PaginatedResult<Message[]>) => {
-      this.messages = res.result;
-      this.pagination = res.pagination;
+    this.userService.getMessages(this.authService.decodedToken.nameid, this.pagination.currentPage, this.pagination.itemsPerPage, this.messageContainer).subscribe(res  => {
+      this.messages = res['result'];
+      this.pagination = res['pagination'];
     }, error => this.alertify.error(error));
   }
 
