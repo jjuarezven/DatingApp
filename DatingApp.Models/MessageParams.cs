@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DatingApp.Models
+﻿namespace DatingApp.Models
 {
     public class MessageParams
     {
@@ -13,8 +9,8 @@ namespace DatingApp.Models
 
         public int PageSize
         {
-            get { return pageSize; }
-            set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
+            get => pageSize;
+            set => pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
 
         public int UserId { get; set; }

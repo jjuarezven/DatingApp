@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DatingApp.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DatingApp.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Data
 {
@@ -35,7 +34,7 @@ namespace DatingApp.Data
         public async Task<Photo> GetPhoto(int id)
         {
             return await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
-        }        
+        }
 
         public async Task<bool> SaveAll()
         {
@@ -49,7 +48,7 @@ namespace DatingApp.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(u => u.Photos).OrderByDescending(u=> u.LastActive).AsQueryable();
+            var users = _context.Users.Include(u => u.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
             users = users.Where(x => x.Id != userParams.UserId);
             users = users.Where(x => x.Gender == userParams.Gender);
 
@@ -69,7 +68,7 @@ namespace DatingApp.Data
             {
                 var minDateOfBirth = DateTime.Today.AddYears(-userParams.MaxAge - 1);
                 var maxDateOfBirth = DateTime.Today.AddYears(-userParams.MinAge);
-                users = users.Where(x=> x.DateOfBirth >= minDateOfBirth && x.DateOfBirth <= maxDateOfBirth);
+                users = users.Where(x => x.DateOfBirth >= minDateOfBirth && x.DateOfBirth <= maxDateOfBirth);
             }
 
             if (!string.IsNullOrEmpty(userParams.OrderBy))
@@ -95,7 +94,7 @@ namespace DatingApp.Data
             {
                 return user.Likers.Where(u => u.LikeeId == id).Select(i => i.LikerId);
             }
-            else     
+            else
             {
                 return user.Likees.Where(u => u.LikerId == id).Select(i => i.LikeeId);
             }
