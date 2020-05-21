@@ -1,3 +1,13 @@
 Entity framework commands:
 	Add-Migration InitialMigration
 	Update-Database -Migration InitialMigration
+
+
+Using NG Build and running the application from the Kestrel server: En esta leccion es importante notar que se modifico el archivo angular.json, para generar los archivos estaticos 
+en el directorio especificado:
+	"outputPath": "../../DatingApp.API/wwwroot"
+tambien en el startup.cs se agregaron este codigo para que el api use los archivos estaticos generados por angular:
+	app.UseDefaultFiles();
+	app.UseStaticFiles();
+ademas se agrego un FallbackController para que cuando se refresque una pagina, se tome el archivo Index.html y el routing de angular vuelva a tomar el control
+del routing.
