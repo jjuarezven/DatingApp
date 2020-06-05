@@ -1,3 +1,10 @@
 Entity framework commands:
 	Add-Migration InitialMigration
 	Update-Database -Migration InitialMigration
+
+
+Deployment:
+	Setting  "outputPath": "../../DatingApp.API/wwwroot" in the angular.json file and running ng build, generates the angular transpiled files in that location. Also we added
+	app.UseDefaultFiles();
+    app.UseStaticFiles();
+	so api application bootstrap from index.html
