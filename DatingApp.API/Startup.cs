@@ -26,11 +26,39 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// This method is a convetion's based one that is going to run according to configuration in launchsettings.json
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // see that Configuration.GetConnectionString("DefaultConnection") matches with DefaultConnection set on appsettings.json
+            services.AddDbContext<DataContext>(x =>
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            ConfigureServices(services);
+        }
+
+        /// <summary>
+        /// This method is a convetion's based one that is going to run according to configuration in launchsettings.json
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            // see that Configuration.GetConnectionString("DefaultConnection") matches with DefaultConnection set on appsettings.json
+            services.AddDbContext<DataContext>(x => 
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            ConfigureServices(services);
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // see that Configuration.GetConnectionString("DefaultConnection") matches with DefaultConnection set on appsettings.json
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddCors();
