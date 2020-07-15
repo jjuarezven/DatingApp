@@ -8,3 +8,6 @@ Deployment:
 	app.UseDefaultFiles();
     app.UseStaticFiles();
 	so api application bootstrap from index.html
+
+
+Azure: https://dappjj.azurewebsites.net/
