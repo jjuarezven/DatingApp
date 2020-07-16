@@ -5,7 +5,6 @@ using DatingApp.API.DTO;
 using DatingApp.API.Helpers;
 using DatingApp.Data;
 using DatingApp.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Linq;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace DatingApp.API.Controllers
 {
-    [Authorize]
     [Route("api/users/{userId}/photos")]
     [ApiController]
     public class PhotosController : ControllerBase
