@@ -18,7 +18,8 @@ import {
   TabsModule,
   BsDatepickerModule,
   PaginationModule,
-  ButtonsModule
+  ButtonsModule,
+  ModalModule
 } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
@@ -42,6 +43,10 @@ import { MessagesResolver } from './_resolvers/messages-resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
+import { AdminManagementComponent } from './admin/admin-management/admin-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { AdminService } from './services/admin.service';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
@@ -70,7 +75,10 @@ export function tokenGetter() {
     TimeAgoPipe,
     MemberMessagesComponent,
     AdminPanelComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    AdminManagementComponent,
+    PhotoManagementComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +92,7 @@ export function tokenGetter() {
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -102,7 +111,11 @@ export function tokenGetter() {
     MemberEditResolver,
     PreventUnsavedChanges,
     ListsResolver,
-    MessagesResolver
+    MessagesResolver,
+    AdminService
+  ],
+  entryComponents: [
+    RolesModalComponent
   ],
   bootstrap: [AppComponent]
 })
